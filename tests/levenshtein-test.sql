@@ -1,5 +1,5 @@
 .load ./levenshtein.sqlext
-.mode col
+.mode column
 .head on
 
 SELECT
