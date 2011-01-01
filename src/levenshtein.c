@@ -7,7 +7,7 @@
 // O(n*m) !!!
 
 
-#define ___MIN___(a,b) ((a<b)?a:b)
+#define ___MIN___(a,b) (((a)<(b))?(a):(b))
 
 SQLITE_EXTENSION_INIT1
 
