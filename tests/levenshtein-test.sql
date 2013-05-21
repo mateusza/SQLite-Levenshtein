@@ -1,4 +1,4 @@
-.load ./levenshtein.sqlext
+.load ../levenshtein.sqlext
 .mode column
 .head on
 

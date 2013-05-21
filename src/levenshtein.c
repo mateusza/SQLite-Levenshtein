@@ -13,11 +13,11 @@ SQLITE_EXTENSION_INIT1
 
 int levenshtein_distance(char*, char*);
 
-static void levenFunc(
-	sqlite3_context *context,
-	int argc,
-	sqlite3_value **argv
-){
+static void levenFunc( context, argc, argv )
+	sqlite3_context *context;
+	int argc;
+	sqlite3_value **argv;
+{
 	int result;
 
 	if ( sqlite3_value_type( argv[0] ) == SQLITE_NULL || sqlite3_value_type( argv[1] ) == SQLITE_NULL ){
@@ -50,7 +50,10 @@ int sqlite3_extension_init(
 }
 
 
-int levenshtein_distance( char* s1, char* s2 ) {
+int levenshtein_distance( s1, s2 )
+	char* s1;
+	char* s2;
+{
 	int k,i,j,n,m,cost,*d,result;
 	n=strlen(s1); 
 	m=strlen(s2);
