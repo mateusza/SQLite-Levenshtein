@@ -1,7 +1,8 @@
-SQLite Levenshtein extension
+SQLite Levenshtein Distance extension
 ============================
 
 Author: Mateusz Adamowski
+
 License: public domain
 
 
@@ -18,7 +19,7 @@ Build:
 
 ##### others
 
-    Get source of SQLite [http://www.sqlite.org](http://www.sqlite.org)
+Get source of SQLite from [http://www.sqlite.org](http://www.sqlite.org)
 
 ### Windows
 
