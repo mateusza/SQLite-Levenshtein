@@ -1,5 +1,5 @@
 SQLite Levenshtein Distance extension
-============================
+=====================================
 
 Author: Mateusz Adamowski
 
@@ -10,9 +10,10 @@ Build:
 ------
 ### Linux, Unix etc:
 
+    $ ./configure
     $ make
 
-#### Obtaining missing header files
+#### Obtaining dependencies
 ##### Debian, Ubuntu
 
     # apt-get install libsqlite3-dev
@@ -21,19 +22,12 @@ Build:
 
 Get source of SQLite from [http://www.sqlite.org](http://www.sqlite.org)
 
-### Windows
-
-    C:\> gcc -s -O4 -I /path/to/sqlite/headers/ -shared -o levenshtein.dll levenshtein.c
-
-[More info][win-build]
-
-
 Usage:
 ------
 
 ### SQLite commandline interface
 
-    sqlite> .load levenshtein.sqlext
+    sqlite> .load ./liblevenshtein.so
     sqlite> SELECT LEVENSHTEIN( 'This is not correct', 'This is correct' );
     4
     sqlite> SELECT LEVENSHTEIN( NULL, 'aaa' ) IS NULL;
@@ -41,7 +35,5 @@ Usage:
 
 ### SQLite library calls
 
-    sqlite_exec( "SELECT LOAD_EXTENSION('levenshtein.sqlext')" );
-
-  [win-build]: http://stackoverflow.com/questions/14521922/compiling-sqlite-levenshtein-function-for-system-data-sqlite
+    sqlite_exec( "SELECT LOAD_EXTENSION('/path/liblevenshtein.so')" );
 
