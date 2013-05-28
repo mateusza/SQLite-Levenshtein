@@ -1,1 +1,15 @@
-levenshtein.sqlext
+/aclocal.m4
+/autom4te.cache
+/compile
+/config.h
+/config.log
+/config.status
+/configure
+/depcomp
+/install-sh
+/libtool
+/Makefile
+/Makefile.in
+/missing
+/stamp-h1
+

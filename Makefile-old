@@ -5,3 +5,4 @@ levenshtein.sqlext: src/levenshtein.c
 
 clean:
 	rm levenshtein.sqlext
+

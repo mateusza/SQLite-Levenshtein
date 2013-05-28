@@ -3,9 +3,10 @@
 #include <stdlib.h>
 #include <malloc.h>
 
+#include "config.h"
+
 #define LEVENSHTEIN_MAX_STRLEN 1024
 // O(n*m) !!!
-
 
 #define ___MIN___(a,b) (((a)<(b))?(a):(b))
 
