@@ -5,5 +5,5 @@ LT_INIT
 AC_PROG_CC
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([Makefile src/Makefile])
-PKG_CHECK_MODULES([SQLITE], [sqlite3 >= 3.7.0])
+PKG_CHECK_MODULES([SQLITE], [sqlite3 >= 3.0.0])
 AC_OUTPUT
