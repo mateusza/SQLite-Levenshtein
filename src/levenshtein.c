@@ -8,11 +8,9 @@
 #define LEVENSHTEIN_MAX_STRLEN 1024
 // O(n*m) !!!
 
-#define ___MIN___(a,b) (((a)<(b))?(a):(b))
-
 SQLITE_EXTENSION_INIT1
 
-int levenshtein_distance(char*, char*);
+int levenshtein_distance_fast(char*, char*);
 
 static void levenFunc( context, argc, argv )
 	sqlite3_context *context;
@@ -26,7 +24,7 @@ static void levenFunc( context, argc, argv )
 		return;
 	}
 
-	result = levenshtein_distance(
+	result = levenshtein_distance_fast(
 		(char*) sqlite3_value_text( argv[0] ),
 		(char*) sqlite3_value_text( argv[1] )
 	);
@@ -51,41 +49,34 @@ int sqlite3_extension_init(
 }
 
 
-int levenshtein_distance( s1, s2 )
-	char* s1;
-	char* s2;
-{
-	int k,i,j,n,m,cost,*d,result;
-	n=strlen(s1); 
-	m=strlen(s2);
+#define MIN3(a, b, c) ((a) < (b) ? ((a) < (c) ? (a) : (c)) : ((b) < (c) ? (b) : (c)))
 
-	if ( n > LEVENSHTEIN_MAX_STRLEN || m > LEVENSHTEIN_MAX_STRLEN ){
+int levenshtein_distance_fast(char *s1, char *s2) {
+	unsigned int s1len, s2len, x, y, lastdiag, olddiag;
+	s1len = strlen(s1);
+	s2len = strlen(s2);
+
+	if (s1len == 0 || s2len == 0) {
+		return s1len > s2len ? s1len : s2len;
+	}
+	unsigned int* column = malloc(sizeof(unsigned int) * (s1len+1));
+
+	if (s1len > LEVENSHTEIN_MAX_STRLEN || s2len > LEVENSHTEIN_MAX_STRLEN) {
 		return -1;
 	}
 
-	if( n !=0 && m != 0){
-		d=malloc((sizeof(int))*(++m)*(++n));
-		for(k=0;k<n;k++){
-			d[k]=k;
-		}
-		for(k=0;k<m;k++){
-			d[k*n]=k;
-		}
-		for(i=1;i<n;i++){
-			for(j=1;j<m;j++){
-				if(s1[i-1]==s2[j-1])
-					cost=0;
-				else
-					cost=1;
-				d[j*n+i]=___MIN___( ___MIN___( d[(j-1)*n+i]+1, d[j*n+i-1]+1 ), d[(j-1)*n+i-1]+cost );
-			}
-		}
-		result=d[n*m-1];
-		free(d);
-		return result;
-	}
-	else {
-		return (n>m)?n:m;
-	}
-}
+	for (y = 1; y <= s1len; y++)
+		column[y] = y;
 
+	for (x = 1; x <= s2len; x++) {
+		column[0] = x;
+		for (y = 1, lastdiag = x-1; y <= s1len; y++) {
+			olddiag = column[y];
+			column[y] = MIN3(column[y] + 1, column[y-1] + 1, lastdiag + (s1[y-1] == s2[x-1] ? 0 : 1));
+			lastdiag = olddiag;
+		}
+	}
+	unsigned int result = column[s1len];
+	free(column);
+	return result;
+}
