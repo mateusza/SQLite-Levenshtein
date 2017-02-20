@@ -11,6 +11,7 @@
 SQLITE_EXTENSION_INIT1
 
 int levenshtein_distance_fast(char*, char*);
+int levenshtein_distance_percent(char*, char*);
 
 static void levenFunc( context, argc, argv )
 	sqlite3_context *context;
@@ -38,6 +39,32 @@ static void levenFunc( context, argc, argv )
 	sqlite3_result_int( context, result );
 }
 
+static void levenPercentFunc( context, argc, argv )
+	sqlite3_context *context;
+	int argc;
+	sqlite3_value **argv;
+{
+	int result;
+
+	if ( sqlite3_value_type( argv[0] ) == SQLITE_NULL || sqlite3_value_type( argv[1] ) == SQLITE_NULL ){
+		sqlite3_result_null( context );
+		return;
+	}
+
+	result = levenshtein_distance_percent(
+		(char*) sqlite3_value_text( argv[0] ),
+		(char*) sqlite3_value_text( argv[1] )
+	);
+
+	if ( result == -1 ){
+		// one argument too long
+		sqlite3_result_null( context );
+                return;
+	}
+
+	sqlite3_result_int( context, result );
+}
+
 int sqlite3_extension_init(
 	sqlite3 *db,
 	char **pzErrMsg,
@@ -45,6 +72,7 @@ int sqlite3_extension_init(
 ){
 	SQLITE_EXTENSION_INIT2(pApi)
 	sqlite3_create_function(db, "levenshtein", 2, SQLITE_ANY, 0, levenFunc, 0, 0);
+	sqlite3_create_function(db, "levenshtein_percent", 2, SQLITE_ANY, 0, levenPercentFunc, 0, 0);
 	return 0;
 }
 
@@ -79,4 +107,12 @@ int levenshtein_distance_fast(char *s1, char *s2) {
 	unsigned int result = column[s1len];
 	free(column);
 	return result;
+}
+
+int levenshtein_distance_percent(char *s1, char *s2) {
+	unsigned int r = levenshtein_distance_fast(s1, s2);
+	unsigned int s1len = strlen(s1);
+	unsigned int s2len = strlen(s2);
+	unsigned int maxlen = s1len > s2len ? s1len : s2len;
+	return ((float)r / maxlen) * 100;
 }
