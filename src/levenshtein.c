@@ -188,5 +188,5 @@ int match_fuzzy(char *s1, char *s2) {
     if (result > max_allowed)
         return 0;
     else
-        return 1;
+        return result;
 }
