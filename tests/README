@@ -1,17 +1,17 @@
 $ time sqlite3 < levenshtein-test.sql 
-description                result
--------------------------  ----------
-Empty strings 0 distance:  passed
-'Asia' and 'Kasia' -> 2:   passed
-NULL handled correctly (1  passed
-NULL handled correctly (2  passed
-NULL handled correctly (b  passed
-Maximum length strings:    passed
-Too long strings:          passed
-Random text and zero leng  passed
-Random text and zero leng  passed
-4096 tests:                passed    
+description                                         result    
+--------------------------------------------------  ----------
+Empty strings 0 distance:                           passed    
+'Asia' and 'Kasia' -> 2:                            passed    
+NULL handled correctly (1st):                       passed    
+NULL handled correctly (2nd):                       passed    
+NULL handled correctly (both):                      passed    
+Maximum length strings:                             passed    
+Too long strings:                                   passed    
+Random text and zero length text:                   passed    
+Random text and zero length text:                   passed    
+4096 tests:                                         passed    
 
-real    2m51.958s
-user    2m16.844s
-sys     0m25.316s
+real    0m26.549s
+user    0m26.528s
+sys 0m0.008s

@@ -1,5 +1,6 @@
 .load ../levenshtein.sqlext
 .mode column
+.width 50 10
 .head on
 
 SELECT
