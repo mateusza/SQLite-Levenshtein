@@ -11,4 +11,9 @@
 /Makefile
 /missing
 /stamp-h1
-
+*.dll
+*.lo
+*.la
+.libs/
+*.o
+/.deps/
